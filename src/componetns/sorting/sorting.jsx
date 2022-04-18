@@ -1,7 +1,6 @@
 import React from "react";
 
-
-const Sorting = ({mode}) => {
+const Sorting = () => {
         return (
             <div className="board__filter-list">
                 <span className="board__filter--title">Сортировка:</span>
