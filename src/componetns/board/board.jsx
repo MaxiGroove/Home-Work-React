@@ -3,16 +3,20 @@ import Sorting from "../sorting/sorting";
 import Card from "../card/card";
 import LoadMore from "../load-more/load-more";
 import { AppRoute } from "../../const";
+import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
 
-const Board = ({mode}) => {
+const Board = () => {
+
+    const location = useLocation()
+
     return (
         <section className="board">
-            {mode === AppRoute.MAIN ? <Sorting  /> : null}
+            {location.pathname === AppRoute.MAIN ? <Sorting  /> : null}
             <div className="board__events">
                 <Card />
             </div>
-            {mode === AppRoute.MAIN ? <LoadMore /> :
-                mode === AppRoute.ARCHIVE ? <LoadMore /> :
+            {location.pathname === AppRoute.MAIN ? <LoadMore /> :
+                location.pathname === AppRoute.ARCHIVE ? <LoadMore /> :
                 null}
         </section>
     )

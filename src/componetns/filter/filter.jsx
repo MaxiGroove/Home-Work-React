@@ -1,7 +1,10 @@
 import React from "react";
+import { Link, useLocation } from "react-router-dom";
 import { AppRoute } from "../../const";
 
-const Filter = ({mode}) => {
+const Filter = () => {
+
+    const location = useLocation();
     
     return (
         <section className="main__filter filter">
@@ -30,7 +33,7 @@ const Filter = ({mode}) => {
                 Избранное <span className="filter__favorite-count count">1</span>
             </label>
 
-            {mode === AppRoute.MAIN ? <button name="control" className="btn-add">Создать</button> : null}
+            {location.pathname === AppRoute.MAIN ? <Link to={AppRoute.ADD} name="control" className="btn-add">Создать</Link> : null}
         </section>
     )
 }

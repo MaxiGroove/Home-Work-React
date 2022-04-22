@@ -424,3 +424,17 @@ body {
   outline: none;
   border: 0;
 }
+
+
+.page-not-found {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.page-not-found span {
+  font-size: 25px;
+  margin-bottom: 10px;
+}
