@@ -1,17 +1,55 @@
-import React from "react";
-import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useParams, useHistory } from "react-router-dom";
 import moment from "moment";
-import "moment/locale/ru"
+import "moment/locale/ru";
 
-const Event = ({events}) => {
+const Event = ({ events }) => {
   const { id } = useParams();
 
-  const arr = events.filter(item => item._id === id)
+  const history = useHistory();
 
-  // const { theme, comment, date } = arr[0];
+  const { editEvent, addEvent, getEvent } = events;
+
+  const [form, setForm] = useState({
+    theme: '',
+    comment: '',
+    date: new Date()
+  })
+
+  const handleFieldChange = (evt) => {
+    const { name, value } = evt.target;
+    setForm({ ...form, [name]: value })
+  }
+
+  console.log('submit form', form);
+
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    if (id) {
+      editEvent({
+        id: id,
+        ...form,
+        favorite: form.favorite,
+        archive: form.archive,
+      });
+      history.push('/');
+    } else {
+      addEvent(form);
+      history.push('/');
+    }
+  }
+
+  useEffect(() => {
+    if (id) {
+      getEvent(id).then( result => setForm(result))
+    }
+  }, [id])
+
+
+  const formatDate = moment(form.date).format('YYYY-MM-DDThh:mm');
 
   return (
-    <form className="board__form">
+    <form className="board__form" onSubmit={handleSubmit}>
       <h2 className="board__title">{id ? 'Редактирование события' : 'Добавление события'}</h2>
 
       <fieldset className="board__field board__field--theme">
@@ -20,8 +58,10 @@ const Event = ({events}) => {
           type="text"
           className="board__input board__input--theme"
           name="theme"
+          defaultValue={form.theme}
+          onChange={handleFieldChange}
           required
-        >{id && arr[0].theme}</textarea>
+        ></textarea>
       </fieldset>
 
       <fieldset className="board__field board__field--comment">
@@ -30,8 +70,10 @@ const Event = ({events}) => {
           type="text"
           className="board__input board__input--comment"
           name="comment"
+          defaultValue={form.comment}
+          onChange={handleFieldChange}
           required
-        >{id && arr[0].comment}</textarea>
+        ></textarea>
       </fieldset>
 
       <fieldset className="board__field board__field--date">
@@ -40,16 +82,26 @@ const Event = ({events}) => {
           type="datetime-local"
           className="board__input board__input--date"
           name="date"
-          defaultValue={id && moment(arr[0].date).format('YYYY-MM-DDThh:mm')}
+          value={formatDate}
+          onChange={handleFieldChange}
         />
       </fieldset>
 
       <div className="btns">
-        <button type="submit" className="btn-submit">{id ? 'Сохранить' : 'Добавить'}</button>
+        <button
+          type="submit"
+          className="btn-submit"
+          onClick={handleSubmit}
+        >
+          {id ? 'Сохранить' : 'Добавить'}
+        </button>
+
         <button type="reset" className="btn-reset">Очистить</button>
       </div>
     </form>
-  )
-}
+  );
+};
 
 export default Event;
+
+
