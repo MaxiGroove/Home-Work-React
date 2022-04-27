@@ -3,13 +3,14 @@ import Header from "../../componetns/header/header";
 import Filter from "../../componetns/filter/filter";
 import Board from "../../componetns/board/board";
 
-const Main = () => {
+const Main = ({events}) => {
+
     return (
         <React.Fragment>
             <Header />
             <section className="main__wrapper">
                 <Filter />
-                <Board />
+                <Board events={events} />
             </section>
         </React.Fragment>
     )

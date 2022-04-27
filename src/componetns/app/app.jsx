@@ -6,15 +6,23 @@ import Form from '../../pages/form/form';
 import { AppRoute } from '../../const';
 import PageNotFound from '../../pages/page-not-found-404/page-not-found-404';
 
-const App = () => {
+const App = ({ events }) => {
   return (
     <BrowserRouter>
       <Switch>
+
         <Route path="/" exact>
-          <Main />
+          <Main events={events} />
         </Route>
-        <Route path={AppRoute.ARCHIVE} exact component={Archive} />
-        <Route path={AppRoute.EVENT} exact component={Form} />
+
+        <Route path={AppRoute.ARCHIVE} exact>
+          <Archive events={events} />
+        </Route>
+
+        <Route path={AppRoute.EVENT}>
+          <Form events={events} />
+        </Route>
+        
         <Route path="*" component={PageNotFound} />
       </Switch>
     </BrowserRouter>
